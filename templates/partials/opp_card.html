@@ -1,0 +1,32 @@
+<div class="opp-card">
+  <div class="opp-card-header">
+    <div class="opp-category">{{ opp['category'] }}</div>
+    <div class="opp-title">{{ opp['title'] }}</div>
+  </div>
+  <div class="opp-card-body">
+    <div class="opp-meta">
+      <span class="opp-meta-item"><i class="fas fa-map-marker-alt"></i>{{ opp['location'] }}</span>
+      <span class="opp-meta-item"><i class="fas fa-calendar"></i>{{ opp['schedule'] }}</span>
+      <span class="opp-meta-item"><i class="fas fa-clock"></i>{{ opp['duration'] }}</span>
+    </div>
+    <p class="opp-desc">{{ opp['description'][:120] }}{% if opp['description']|length > 120 %}...{% endif %}</p>
+    <div class="skill-tags">
+      {% for skill in opp['skills_required'].split(',') %}
+      <span class="skill-tag">{{ skill.strip() }}</span>
+      {% endfor %}
+    </div>
+    {% set pct = ((opp['registered'] / opp['slots']) * 100)|int if opp['slots'] > 0 else 0 %}
+    <div style="margin-bottom:1rem;">
+      <div style="display:flex;justify-content:space-between;font-size:0.78rem;color:var(--zg-gray);margin-bottom:0.4rem;">
+        <span><i class="fas fa-users me-1"></i>{{ opp['registered'] }}/{{ opp['slots'] }} volunteers</span>
+        <span>{{ pct }}% filled</span>
+      </div>
+      <div style="background:var(--zg-border);border-radius:100px;height:6px;">
+        <div style="background:{% if pct > 80 %}var(--zg-accent){% else %}var(--zg-blue){% endif %};height:100%;border-radius:100px;width:{{ pct }}%;"></div>
+      </div>
+    </div>
+    <a href="{{ url_for('apply', opp_id=opp['id']) }}" class="btn-apply">
+      {% if opp['registered'] >= opp['slots'] %}⚠ Fully Booked{% else %}<i class="fas fa-hand-paper me-2"></i>Register Now{% endif %}
+    </a>
+  </div>
+</div>

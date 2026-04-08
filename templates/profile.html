@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block title %}My Profile | Zero Gravity{% endblock %}
+{% block content %}
+<div style="background:var(--zg-deep);padding:5rem 0 3rem;"><div class="container">
+  <div class="section-label" style="color:var(--zg-gold);">My Account</div>
+  <h1 class="hero-title" style="font-size:clamp(2rem,5vw,3rem);">Volunteer Profile</h1>
+</div></div>
+<section class="section"><div class="container"><div class="row g-4">
+
+  <!-- SIDEBAR -->
+  <div class="col-lg-3">
+    <div class="profile-sidebar">
+      <div class="profile-avatar">{{ vol['name'][:2].upper() }}</div>
+      <div class="profile-name">{{ vol['name'] }}</div>
+      <div class="profile-email">{{ vol['email'] }}</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-top:1.5rem;">
+        <div class="profile-stat">
+          <div class="profile-stat-num">{{ my_apps|length }}</div>
+          <div class="profile-stat-label">Applied</div>
+        </div>
+        <div class="profile-stat">
+          <div class="profile-stat-num">{{ vol['skills'].split(',')|length if vol['skills'] else 0 }}</div>
+          <div class="profile-stat-label">Skills</div>
+        </div>
+      </div>
+      {% if vol['skills'] %}
+      <div style="margin-top:1.5rem;text-align:left;">
+        <div style="font-size:0.72rem;opacity:0.5;text-transform:uppercase;letter-spacing:1px;margin-bottom:0.75rem;">Skills</div>
+        <div style="display:flex;flex-wrap:wrap;gap:0.4rem;">
+          {% for s in vol['skills'].split(',') %}
+          <span style="background:rgba(255,255,255,0.1);color:#fff;padding:0.2rem 0.6rem;border-radius:100px;font-size:0.72rem;">{{ s.strip() }}</span>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+      {% if vol['city'] %}<div style="margin-top:1rem;font-size:0.82rem;opacity:0.6;"><i class="fas fa-map-marker-alt me-1"></i>{{ vol['city'] }}</div>{% endif %}
+      {% if vol['availability'] %}<div style="font-size:0.82rem;opacity:0.6;margin-top:0.4rem;"><i class="fas fa-clock me-1"></i>{{ vol['availability'] }}</div>{% endif %}
+      <a href="{{ url_for('logout') }}" style="display:block;width:100%;margin-top:1.5rem;background:transparent;border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.6);padding:0.6rem;border-radius:6px;text-align:center;text-decoration:none;font-size:0.85rem;transition:all 0.2s;">
+        <i class="fas fa-sign-out-alt me-1"></i>Log Out
+      </a>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="col-lg-9">
+    <!-- My Applications -->
+    <div style="background:#fff;border:1px solid var(--zg-border);border-radius:16px;padding:2rem;margin-bottom:1.5rem;">
+      <h4 style="font-family:var(--ff-head);margin-bottom:1.5rem;">My Registered Opportunities</h4>
+      {% if my_apps %}
+      {% for app in my_apps %}
+      <div style="background:#fff;border:1px solid var(--zg-border);border-radius:10px;padding:1.25rem 1.5rem;display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;">
+        <div>
+          <div style="font-weight:600;font-size:0.95rem;margin-bottom:0.25rem;">{{ app['opp_title'] }}</div>
+          <div style="font-size:0.78rem;color:var(--zg-gray);"><i class="fas fa-tag me-1"></i>{{ app['opp_category'] }} &nbsp;·&nbsp; Applied {{ app['applied_date'] }}</div>
+        </div>
+        <span style="padding:0.25rem 0.75rem;border-radius:100px;font-size:0.72rem;font-weight:700;text-transform:uppercase;
+          background:{% if app['status']=='approved' %}#d4edda{% elif app['status']=='rejected' %}#f8d7da{% else %}#fff3cd{% endif %};
+          color:{% if app['status']=='approved' %}#155724{% elif app['status']=='rejected' %}#721c24{% else %}#856404{% endif %};">
+          {{ app['status'] }}
+        </span>
+      </div>
+      {% endfor %}
+      {% else %}
+      <div style="text-align:center;padding:3rem;color:var(--zg-gray);">
+        <i class="fas fa-clipboard-list" style="font-size:3rem;opacity:0.3;display:block;margin-bottom:1rem;"></i>
+        <p>You haven't registered for any opportunities yet.</p>
+        <a href="{{ url_for('opportunities') }}" class="btn-primary-zg" style="display:inline-flex;margin-top:1rem;font-size:0.88rem;">Browse Opportunities</a>
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- Recommended -->
+    {% if recommended %}
+    <div style="background:#fff;border:1px solid var(--zg-border);border-radius:16px;padding:2rem;">
+      <h4 style="font-family:var(--ff-head);margin-bottom:1.5rem;">Recommended for You</h4>
+      <div class="row g-3">
+        {% for opp in recommended %}
+        <div class="col-md-6">{% include 'partials/opp_card.html' %}</div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+</div></div></section>
+{% endblock %}

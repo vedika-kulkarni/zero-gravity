@@ -1,0 +1,125 @@
+{% extends "admin/base.html" %}
+{% block title %}Messages | Admin | Zero Gravity{% endblock %}
+{% block content %}
+
+<div class="tab-title">Contact Messages</div>
+<div class="tab-sub">Messages submitted through the public contact form. Click "View" to read the full message.</div>
+
+<div class="admin-table">
+  <div style="overflow-x:auto;">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Subject</th>
+          <th>Message Preview</th>
+          <th>Received</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if messages %}
+          {% for msg in messages %}
+          <tr>
+            <td style="color:var(--zg-gray);font-size:0.82rem;">{{ msg['id'] }}</td>
+            <td><strong>{{ msg['name'] }}</strong></td>
+            <td style="font-size:0.82rem;">
+              <a href="mailto:{{ msg['email'] }}" style="color:var(--zg-accent);text-decoration:none;">{{ msg['email'] }}</a>
+            </td>
+            <td>{{ msg['subject'] or '—' }}</td>
+            <td style="max-width:220px;">
+              <span style="font-size:0.85rem;color:var(--zg-gray);">
+                {{ msg['message'][:60] }}{% if msg['message']|length > 60 %}...{% endif %}
+              </span>
+            </td>
+            <td style="white-space:nowrap;font-size:0.82rem;">{{ msg['received_date'] }}</td>
+            <td>
+              <!-- Trigger full message modal -->
+              <button type="button"
+                class="btn-zg-primary"
+                style="font-size:0.78rem;padding:0.35rem 0.85rem;"
+                onclick="showMsg(
+                  '{{ msg['name'] | replace("'", "\\'") }}',
+                  '{{ msg['email'] | replace("'", "\\'") }}',
+                  '{{ (msg['subject'] or 'No Subject') | replace("'", "\\'") }}',
+                  '{{ msg['message'] | replace("'", "\\'") | replace('\n', '\\n') | replace('\r', '') }}',
+                  '{{ msg['received_date'] }}'
+                )">
+                <i class="fas fa-eye me-1"></i>View
+              </button>
+            </td>
+          </tr>
+          {% endfor %}
+        {% else %}
+          <tr>
+            <td colspan="7" style="text-align:center;padding:3rem;color:#999;">
+              <i class="fas fa-inbox" style="font-size:2.5rem;display:block;margin-bottom:1rem;opacity:0.3;"></i>
+              No messages yet.
+            </td>
+          </tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- FULL MESSAGE MODAL -->
+<div class="modal fade" id="msgModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content" style="border-radius:14px;border:none;overflow:hidden;">
+      <div class="modal-header" style="background:var(--zg-deep);color:#fff;border:none;padding:1.5rem 2rem;">
+        <div>
+          <h5 class="modal-title" style="font-family:var(--ff-head);font-size:1.2rem;" id="modal-subject">—</h5>
+          <div style="font-size:0.8rem;opacity:0.6;margin-top:0.25rem;" id="modal-meta">—</div>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" style="filter:invert(1);opacity:0.7;"></button>
+      </div>
+      <div class="modal-body" style="padding:2rem;">
+        <div style="display:flex;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap;">
+          <div style="background:var(--zg-light);border-radius:8px;padding:0.75rem 1rem;flex:1;min-width:180px;">
+            <div style="font-size:0.72rem;text-transform:uppercase;letter-spacing:1px;color:#999;margin-bottom:0.25rem;">From</div>
+            <div style="font-weight:600;font-size:0.9rem;" id="modal-name">—</div>
+          </div>
+          <div style="background:var(--zg-light);border-radius:8px;padding:0.75rem 1rem;flex:1;min-width:180px;">
+            <div style="font-size:0.72rem;text-transform:uppercase;letter-spacing:1px;color:#999;margin-bottom:0.25rem;">Email</div>
+            <div style="font-size:0.9rem;" id="modal-email">—</div>
+          </div>
+          <div style="background:var(--zg-light);border-radius:8px;padding:0.75rem 1rem;flex:1;min-width:140px;">
+            <div style="font-size:0.72rem;text-transform:uppercase;letter-spacing:1px;color:#999;margin-bottom:0.25rem;">Received</div>
+            <div style="font-size:0.9rem;" id="modal-date">—</div>
+          </div>
+        </div>
+        <div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;color:#999;margin-bottom:0.75rem;">Message</div>
+        <div id="modal-message"
+          style="background:var(--zg-light);border-radius:10px;padding:1.5rem;font-size:0.92rem;line-height:1.8;
+                 color:var(--zg-deep);white-space:pre-wrap;max-height:340px;overflow-y:auto;word-break:break-word;">
+        </div>
+      </div>
+      <div class="modal-footer" style="border:none;padding:1rem 2rem 1.5rem;">
+        <a id="modal-reply-btn" href="#" class="btn-zg-primary" style="text-decoration:none;">
+          <i class="fas fa-reply me-1"></i>Reply via Email
+        </a>
+        <button type="button" data-bs-dismiss="modal"
+          style="background:transparent;border:1px solid var(--zg-border);color:var(--zg-gray);padding:0.55rem 1.25rem;border-radius:6px;cursor:pointer;font-family:var(--ff-body);font-size:0.88rem;margin-left:0.75rem;">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function showMsg(name, email, subject, message, date) {
+  document.getElementById('modal-subject').textContent = subject;
+  document.getElementById('modal-meta').textContent = 'Received on ' + date;
+  document.getElementById('modal-name').textContent = name;
+  document.getElementById('modal-email').textContent = email;
+  document.getElementById('modal-date').textContent = date;
+  document.getElementById('modal-message').textContent = message.replace(/\\n/g, '\n');
+  document.getElementById('modal-reply-btn').href = 'mailto:' + email + '?subject=Re: ' + encodeURIComponent(subject);
+  new bootstrap.Modal(document.getElementById('msgModal')).show();
+}
+</script>
+{% endblock %}

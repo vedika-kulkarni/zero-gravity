@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Login | Zero Gravity</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="{{ url_for('static', filename='css/admin.css') }}" rel="stylesheet">
+<style>
+body { min-height:100vh; background:linear-gradient(135deg,#0a1628,#1a3a6b); display:flex; align-items:center; justify-content:center; padding:2rem; }
+.login-box { background:#fff; border-radius:20px; padding:3rem 2.5rem; width:100%; max-width:440px; box-shadow:0 32px 80px rgba(0,0,0,0.3); }
+</style>
+</head>
+<body>
+<div class="login-box">
+  <div style="display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:1.5rem;">
+    <div class="zg-logo-icon" style="width:52px;height:52px;font-size:1.3rem;">ZG</div>
+  </div>
+  <h2 style="font-family:var(--ff-head);text-align:center;color:#0a1628;margin-bottom:0.25rem;">Admin Portal</h2>
+  <p style="text-align:center;color:#6c757d;font-size:0.85rem;margin-bottom:1.5rem;">Zero Gravity NGO — Restricted Access</p>
+  <div style="display:flex;align-items:center;gap:0.5rem;background:rgba(232,80,26,0.08);border:1px solid rgba(232,80,26,0.2);border-radius:8px;padding:0.75rem;margin-bottom:1.75rem;font-size:0.82rem;color:#e8501a;">
+    <i class="fas fa-shield-alt"></i> This area is restricted to administrators only.
+  </div>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}{% for cat, msg in messages %}
+  <div class="alert alert-danger mb-3">{{ msg }}</div>
+  {% endfor %}{% endif %}{% endwith %}
+  <form method="POST" action="{{ url_for('admin_login') }}">
+    <div class="mb-3">
+      <label class="form-label" style="font-weight:600;font-size:0.85rem;">Admin Username</label>
+      <input type="text" class="form-control" name="username" required placeholder="Enter username">
+    </div>
+    <div class="mb-3">
+      <label class="form-label" style="font-weight:600;font-size:0.85rem;">Password</label>
+      <input type="password" class="form-control" name="password" required placeholder="Enter password">
+    </div>
+    <button type="submit" class="btn-login w-100"><i class="fas fa-lock-open me-2"></i>Access Admin Panel</button>
+  </form>
+
+  <div style="text-align:center;margin-top:1rem;">
+    <a href="{{ url_for('index') }}" style="color:#e8501a;font-size:0.82rem;text-decoration:none;"><i class="fas fa-arrow-left me-1"></i>Back to main website</a>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

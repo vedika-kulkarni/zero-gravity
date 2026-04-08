@@ -1,0 +1,65 @@
+{% extends "admin/base.html" %}
+{% block title %}Settings | Admin | Zero Gravity{% endblock %}
+{% block content %}
+<div class="tab-title">Settings</div>
+<div class="tab-sub">Manage admin credentials and platform configuration.</div>
+
+<!-- Change Password -->
+<div class="form-card">
+  <div class="form-card-title">
+    <i class="fas fa-key" style="color:var(--zg-accent);"></i> Change Admin Password
+  </div>
+  <form method="POST" action="{{ url_for('admin_settings') }}">
+    <div class="row g-3">
+      <div class="col-md-4">
+        <label class="form-label">Current Password</label>
+        <input type="password" class="form-control" name="current_password" required placeholder="Current password">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">New Password</label>
+        <input type="password" class="form-control" name="new_password" required placeholder="New password (min 6 chars)">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Confirm New Password</label>
+        <input type="password" class="form-control" name="confirm_password" required placeholder="Confirm new password">
+      </div>
+      <div class="col-12">
+        <button type="submit" class="btn-zg-primary">
+          <i class="fas fa-save me-2"></i>Update Password
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<!-- Platform Info -->
+<div class="form-card" style="margin-bottom:0;">
+  <div class="form-card-title">
+    <i class="fas fa-info-circle" style="color:var(--zg-blue);"></i> Platform Information
+  </div>
+  <div class="row g-3">
+    {% for label, val in [
+      ('NGO Name', 'Zero Gravity'),
+      ('Foundation', 'Dr. Shrikant Jichkar Foundation'),
+      ('Location', '79, Bharat Nagar, Nagpur 440033'),
+      ('Email', 'contact@myzerogravity.org'),
+      ('Phone', '+91 7507011110'),
+      ('Certification', '80G Certified NGO'),
+      ('Framework', 'Python Flask + SQLite'),
+      ('Admin Login', 'admin / (your password)'),
+    ] %}
+    <div class="col-md-6">
+      <div style="background:var(--zg-light);border-radius:8px;padding:1rem;">
+        <div style="font-size:0.72rem;text-transform:uppercase;letter-spacing:1px;color:#999;margin-bottom:0.3rem;">{{ label }}</div>
+        <div style="font-weight:600;font-size:0.9rem;">{{ val }}</div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <div style="margin-top:1.5rem;">
+    <a href="{{ url_for('index') }}" class="btn-zg-primary" style="display:inline-flex;align-items:center;gap:0.5rem;text-decoration:none;">
+      <i class="fas fa-external-link-alt"></i> View Main Website
+    </a>
+  </div>
+</div>
+{% endblock %}

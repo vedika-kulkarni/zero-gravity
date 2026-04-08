@@ -1,0 +1,66 @@
+{% extends "admin/base.html" %}
+{% block title %}Applications | Admin | Zero Gravity{% endblock %}
+{% block content %}
+<div class="tab-title">Volunteer Applications</div>
+<div class="tab-sub">Review and update the status of volunteer applications.</div>
+
+<div style="display:flex;gap:0.75rem;flex-wrap:wrap;margin-bottom:1.5rem;">
+  {% for item in [('all','All'),('pending','Pending'),('approved','Approved'),('rejected','Rejected')] %}
+  <a href="{{ url_for('admin_applications', status=item[0]) }}" style="padding:0.45rem 1.1rem;border-radius:6px;font-size:0.85rem;font-weight:600;text-decoration:none;
+   background:{% if status_filter==item[0] %}var(--zg-accent){% else %}#fff{% endif %};
+   color:{% if status_filter==item[0] %}#fff{% else %}var(--zg-gray){% endif %};
+   border:1px solid {% if status_filter==item[0] %}var(--zg-accent){% else %}var(--zg-border){% endif %};">
+    {{ item[1] }} ({{ counts[item[0]] }})
+  </a>
+  {% endfor %}
+</div>
+
+<div class="admin-table">
+  <div style="overflow-x:auto;">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Volunteer</th>
+          <th>Email</th>
+          <th>Opportunity</th>
+          <th>Category</th>
+          <th>Applied</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for app in applications %}
+        <tr>
+          <td><strong>{{ app['volunteer_name'] }}</strong></td>
+          <td style="font-size:0.82rem;">{{ app['volunteer_email'] }}</td>
+          <td style="max-width:180px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ app['opp_title'] }}
+          </td>
+          <td>{{ app['opp_category'] }}</td>
+          <td style="white-space:nowrap;">{{ app['applied_date'] }}</td>
+          <td><span class="badge-status badge-{{ app['status'] }}">{{ app['status'] }}</span></td>
+          <td style="white-space:nowrap;">
+            {% if app['status'] == 'pending' %}
+            <a href="{{ url_for('admin_update_app', app_id=app['id'], status='approved') }}"
+              class="btn-zg-success me-1"><i class="fas fa-check"></i></a>
+            <a href="{{ url_for('admin_update_app', app_id=app['id'], status='rejected') }}" class="btn-zg-danger"><i
+                class="fas fa-times"></i></a>
+            {% elif app['status'] == 'approved' %}
+            <a href="{{ url_for('admin_update_app', app_id=app['id'], status='rejected') }}" class="btn-zg-danger"><i
+                class="fas fa-times"></i></a>
+            {% else %}
+            <a href="{{ url_for('admin_update_app', app_id=app['id'], status='approved') }}" class="btn-zg-success"><i
+                class="fas fa-check"></i></a>
+            {% endif %}
+          </td>
+        </tr>
+        {% else %}
+        <tr>
+          <td colspan="7" style="text-align:center;padding:3rem;color:#999;">No applications found.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

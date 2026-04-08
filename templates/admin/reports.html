@@ -1,0 +1,76 @@
+{% extends "admin/base.html" %}
+{% block title %}Reports | Admin | Zero Gravity{% endblock %}
+{% block content %}
+<div class="tab-title">Reports & Analytics</div>
+<div class="tab-sub">Platform activity and volunteer engagement overview.</div>
+
+<!-- SUMMARY CARDS -->
+<div class="stat-grid" style="margin-bottom:2rem;">
+  {% for label, val, bg, col in [
+    ('Total Volunteers',    summary.total_volunteers,   '#cfe2ff','#0a58ca'),
+    ('Total Opportunities', summary.total_opportunities,'#d4edda','#155724'),
+    ('Total Applications',  summary.total_applications, '#fff3cd','#664d03'),
+    ('Approved',            summary.approved,            '#d4edda','#155724'),
+    ('Pending',             summary.pending,             '#f8d7da','#721c24'),
+  ] %}
+  <div class="stat-card">
+    <div class="stat-num" style="color:{{ col }};">{{ val }}</div>
+    <div class="stat-label">{{ label }}</div>
+  </div>
+  {% endfor %}
+</div>
+
+<div class="row g-4">
+  <!-- By Category -->
+  <div class="col-md-6">
+    <div class="form-card" style="margin-bottom:0;height:100%;">
+      <div class="form-card-title">
+        <i class="fas fa-chart-bar" style="color:var(--zg-accent);"></i> Opportunities by Category
+      </div>
+      {% if cat_data %}
+        {% set max_cat = cat_data | map(attribute='cnt') | max %}
+        {% for row in cat_data %}
+        {% set pct = ((row['cnt'] / max_cat) * 100)|int %}
+        <div style="margin-bottom:1.1rem;">
+          <div style="display:flex;justify-content:space-between;font-size:0.85rem;margin-bottom:0.4rem;">
+            <span style="font-weight:600;">{{ row['category'] }}</span>
+            <span style="color:#999;">{{ row['cnt'] }} opportunity{{ 's' if row['cnt'] > 1 }}</span>
+          </div>
+          <div style="background:var(--zg-border);border-radius:100px;height:10px;">
+            <div style="background:var(--zg-accent);height:100%;border-radius:100px;width:{{ pct }}%;transition:width 0.5s;"></div>
+          </div>
+        </div>
+        {% endfor %}
+      {% else %}
+        <p style="color:#999;font-size:0.88rem;">No data yet.</p>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- By Skill -->
+  <div class="col-md-6">
+    <div class="form-card" style="margin-bottom:0;height:100%;">
+      <div class="form-card-title">
+        <i class="fas fa-users" style="color:var(--zg-blue);"></i> Top Volunteer Skills
+      </div>
+      {% if top_skills %}
+        {% set max_skill = top_skills[0][1] %}
+        {% for skill, cnt in top_skills %}
+        {% set pct = ((cnt / max_skill) * 100)|int %}
+        <div style="margin-bottom:1rem;">
+          <div style="display:flex;justify-content:space-between;font-size:0.85rem;margin-bottom:0.4rem;">
+            <span style="font-weight:600;">{{ skill }}</span>
+            <span style="color:#999;">{{ cnt }} volunteer{{ 's' if cnt > 1 }}</span>
+          </div>
+          <div style="background:var(--zg-border);border-radius:100px;height:10px;">
+            <div style="background:var(--zg-blue);height:100%;border-radius:100px;width:{{ pct }}%;"></div>
+          </div>
+        </div>
+        {% endfor %}
+      {% else %}
+        <p style="color:#999;font-size:0.88rem;">No volunteer skill data yet.</p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

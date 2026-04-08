@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% block title %}Register as Volunteer | Zero Gravity{% endblock %}
+{% block content %}
+
+<div style="background:var(--zg-deep);padding:5rem 0 3rem;">
+  <div class="container">
+    <div class="section-label" style="color:var(--zg-gold);">Join the Movement</div>
+    <h1 class="hero-title" style="font-size:clamp(2rem,5vw,3rem);">Volunteer Registration</h1>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div style="background:#fff;border:1px solid var(--zg-border);border-radius:16px;padding:2.5rem;">
+          <h3 style="font-family:var(--ff-head);font-size:1.5rem;margin-bottom:0.5rem;">Create Your Profile</h3>
+          <p style="color:var(--zg-gray);font-size:0.88rem;margin-bottom:2rem;">Fill in your details and we will match you with the right opportunities.</p>
+
+          <form method="POST" action="{{ url_for('register') }}">
+            <div class="row g-3">
+
+              <div class="col-12">
+                <div style="font-size:0.75rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--zg-accent);margin-bottom:0.5rem;">Account Details</div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Full Name *</label>
+                <input type="text" class="form-control" name="name" required placeholder="Your full name">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Email Address *</label>
+                <input type="email" class="form-control" name="email" required placeholder="your@email.com">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Password *</label>
+                <input type="password" class="form-control" name="password" required placeholder="Min. 6 characters" minlength="6">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Confirm Password *</label>
+                <input type="password" class="form-control" name="confirm_password" required placeholder="Re-enter your password">
+              </div>
+
+              <div class="col-12 mt-2">
+                <div style="font-size:0.75rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--zg-accent);margin-bottom:0.5rem;">Personal Information</div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Phone Number</label>
+                <input type="tel" class="form-control" name="phone" placeholder="+91 XXXXX XXXXX">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">City</label>
+                <input type="text" class="form-control" name="city" placeholder="Nagpur" value="Nagpur">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Age Group</label>
+                <select class="form-select" name="age_group">
+                  <option value="">Select age group</option>
+                  <option>18-25</option><option>26-35</option><option>36-45</option><option>46+</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Availability</label>
+                <select class="form-select" name="availability">
+                  <option value="">Select availability</option>
+                  <option>Weekdays</option><option>Weekends</option><option>Both</option><option>Flexible</option>
+                </select>
+              </div>
+
+              <div class="col-12 mt-2">
+                <div style="font-size:0.75rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--zg-accent);margin-bottom:0.5rem;">Skills and Interests</div>
+              </div>
+              <div class="col-12">
+                <label class="form-label">Skills (select all that apply)</label>
+                <div class="d-flex flex-wrap gap-2 mt-1">
+                  {% for skill in ['Teaching','Medical','Design','Communication','Programming','Leadership','Photography','First Aid','Teamwork','Arts','Social Media','Business','Research','Writing'] %}
+                  <label style="cursor:pointer;user-select:none;display:flex;align-items:center;gap:0.35rem;background:var(--zg-light);border:1px solid var(--zg-border);padding:0.35rem 0.75rem;border-radius:100px;font-size:0.82rem;">
+                    <input type="checkbox" name="skills" value="{{ skill }}" style="accent-color:var(--zg-accent);"> {{ skill }}
+                  </label>
+                  {% endfor %}
+                </div>
+              </div>
+
+              <div class="col-12">
+                <label class="form-label">Areas of Interest</label>
+                <div class="d-flex flex-wrap gap-2 mt-1">
+                  {% for interest in ['Education','Health','Environment','Community','Technology','Arts & Culture','Women Empowerment','Rural Development'] %}
+                  <label style="cursor:pointer;user-select:none;display:flex;align-items:center;gap:0.35rem;background:var(--zg-light);border:1px solid var(--zg-border);padding:0.35rem 0.75rem;border-radius:100px;font-size:0.82rem;">
+                    <input type="checkbox" name="interests" value="{{ interest }}" style="accent-color:var(--zg-accent);"> {{ interest }}
+                  </label>
+                  {% endfor %}
+                </div>
+              </div>
+
+              <div class="col-12">
+                <label class="form-label">About Yourself</label>
+                <textarea class="form-control" name="bio" rows="3" placeholder="Briefly describe your background and why you want to volunteer with Zero Gravity..."></textarea>
+              </div>
+
+              <div class="col-12 mt-2">
+                <button type="submit" class="btn-submit-form">
+                  <i class="fas fa-user-plus me-2"></i>Create My Account
+                </button>
+              </div>
+              <div class="col-12 text-center">
+                <p style="font-size:0.85rem;color:var(--zg-gray);">Already have an account? <a href="{{ url_for('login') }}" style="color:var(--zg-accent);font-weight:600;">Login here</a></p>
+              </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

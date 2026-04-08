@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Gallery | Zero Gravity{% endblock %}
+{% block content %}
+<div style="background:var(--zg-deep);padding:5rem 0 3rem;"><div class="container">
+  <div class="section-label" style="color:var(--zg-gold);">Our Memories</div>
+  <h1 class="hero-title" style="font-size:clamp(2rem,5vw,3.5rem);">Gallery</h1>
+</div></div>
+<section class="section"><div class="container">
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;">
+    {% for item in [
+      ('🎓','Education Drive','#0a1628','#1a3a6b'),
+      ('🌱','Tree Plantation','#1a3a6b','#0a1628'),
+      ('🏥','Health Camp','#e8501a','#c7401a'),
+      ('🎨','Art Workshop','#0d2244','#e8501a'),
+      ('👩‍💻','Tech Training','#c7401a','#0d2244'),
+      ('🤝','Community Meet','#f0a500','#1a3a6b'),
+      ('📚','Library Drive','#0a1628','#e8501a'),
+      ('🌍','Rural Outreach','#1a3a6b','#f0a500'),
+      ('🎭','Cultural Event','#e8501a','#0a1628'),
+      ('🏃','Awareness Run','#0d2244','#1a3a6b'),
+      ('🍱','Food Drive','#c7401a','#0a1628'),
+      ('🔬','Science Camp','#f0a500','#e8501a'),
+    ] %}
+    <div style="border-radius:8px;overflow:hidden;aspect-ratio:1;background:linear-gradient(135deg,{{ item[2] }},{{ item[3] }});display:flex;flex-direction:column;align-items:center;justify-content:center;color:rgba(255,255,255,0.8);">
+      <div style="font-size:3rem;">{{ item[0] }}</div>
+      <div style="font-size:0.75rem;margin-top:0.5rem;opacity:0.8;letter-spacing:0.5px;">{{ item[1] }}</div>
+    </div>
+    {% endfor %}
+  </div>
+</div></section>
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Apply | {{ opp['title'] }} | Zero Gravity{% endblock %}
+{% block content %}
+<div style="background:var(--zg-deep);padding:5rem 0 3rem;"><div class="container">
+  <div class="section-label" style="color:var(--zg-gold);">Apply Now</div>
+  <h1 class="hero-title" style="font-size:clamp(1.8rem,5vw,3rem);">{{ opp['title'] }}</h1>
+</div></div>
+<section class="section"><div class="container"><div class="row g-5">
+
+  <div class="col-lg-4">
+    <div style="background:var(--zg-deep);border-radius:16px;padding:2rem;color:#fff;position:sticky;top:80px;">
+      <div class="opp-category" style="margin-bottom:1rem;">{{ opp['category'] }}</div>
+      <h4 style="font-family:var(--ff-head);font-size:1.2rem;margin-bottom:1.5rem;">{{ opp['title'] }}</h4>
+      {% for icon, val in [
+        ('fas fa-map-marker-alt', opp['location']),
+        ('fas fa-calendar', opp['schedule']),
+        ('fas fa-clock', opp['duration']),
+        ('fas fa-users', opp['registered']|string + '/' + opp['slots']|string + ' volunteers'),
+        ('fas fa-user-tie', opp['contact_person']),
+      ] %}
+      <div style="display:flex;align-items:flex-start;gap:0.75rem;margin-bottom:0.85rem;font-size:0.88rem;">
+        <i class="{{ icon }}" style="color:var(--zg-gold);margin-top:2px;width:16px;"></i><span>{{ val }}</span>
+      </div>
+      {% endfor %}
+      <div style="margin-top:1.5rem;">
+        <div style="font-size:0.75rem;opacity:0.5;text-transform:uppercase;letter-spacing:1px;margin-bottom:0.75rem;">Skills Required</div>
+        <div style="display:flex;flex-wrap:wrap;gap:0.4rem;">
+          {% for skill in opp['skills_required'].split(',') %}
+          <span style="background:rgba(255,255,255,0.1);color:#fff;padding:0.2rem 0.6rem;border-radius:100px;font-size:0.72rem;">{{ skill.strip() }}</span>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-8">
+    <div style="background:#fff;border:1px solid var(--zg-border);border-radius:16px;padding:2.5rem;">
+      <h3 style="font-family:var(--ff-head);font-size:1.4rem;margin-bottom:1rem;">About This Opportunity</h3>
+      <p style="color:var(--zg-gray);line-height:1.8;margin-bottom:2rem;">{{ opp['description'] }}</p>
+
+      {% if already %}
+      <div style="background:#d4edda;border:1px solid #c3e6cb;border-radius:8px;padding:1.25rem;color:#155724;font-size:0.9rem;">
+        <i class="fas fa-check-circle me-2"></i>You have already applied for this opportunity. We'll be in touch soon!
+      </div>
+      <div style="margin-top:1.5rem;">
+        <a href="{{ url_for('profile') }}" class="btn-primary-zg" style="display:inline-flex;"><i class="fas fa-user me-2"></i>View My Applications</a>
+      </div>
+      {% else %}
+      <h4 style="font-family:var(--ff-head);font-size:1.2rem;margin-bottom:1.5rem;">Submit Your Application</h4>
+      <form method="POST" action="{{ url_for('apply', opp_id=opp['id']) }}">
+        <div class="row g-3">
+          <div class="col-12">
+            <label class="form-label">Why do you want to join this opportunity? *</label>
+            <textarea class="form-control" name="reason" rows="4" required placeholder="Share your motivation and what you hope to contribute..."></textarea>
+          </div>
+          <div class="col-12">
+            <label class="form-label">Relevant Experience</label>
+            <textarea class="form-control" name="experience" rows="3" placeholder="Any related experience, skills, or background..."></textarea>
+          </div>
+          <div class="col-12">
+            <button type="submit" class="btn-submit-form">
+              <i class="fas fa-paper-plane me-2"></i>Submit Application
+            </button>
+          </div>
+        </div>
+      </form>
+      {% endif %}
+    </div>
+  </div>
+
+</div></div></section>
+{% endblock %}

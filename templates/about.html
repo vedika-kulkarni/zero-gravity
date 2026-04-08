@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}About Us | Zero Gravity{% endblock %}
+{% block content %}
+
+<div style="background:var(--zg-deep);padding:5rem 0 3rem;">
+  <div class="container">
+    <div class="section-label" style="color:var(--zg-gold);">About Us</div>
+    <h1 class="hero-title" style="font-size:clamp(2rem,5vw,3.5rem);">Nothing Holds Us Down</h1>
+    <p style="color:rgba(255,255,255,0.7);max-width:600px;font-size:1.05rem;line-height:1.7;margin-top:1rem;">Zero Gravity is a non-profit organisation based in Nagpur, Maharashtra under the Dr. Shrikant Jichkar Foundation.</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <div class="row g-4 mb-5">
+      <div class="col-md-4">
+        <div class="mission-card">
+          <div class="mission-card-icon"><i class="fas fa-rocket"></i></div>
+          <h4>Our Mission</h4>
+          <p>To empower underprivileged youth by providing access to education, health, and community support — breaking barriers that hold them back from achieving their fullest potential.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="mission-card">
+          <div class="mission-card-icon"><i class="fas fa-eye"></i></div>
+          <h4>Our Vision</h4>
+          <p>A society where every individual, regardless of background, has equal opportunity to thrive. We envision Nagpur as a model city for inclusive community development.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="mission-card">
+          <div class="mission-card-icon"><i class="fas fa-heart"></i></div>
+          <h4>Our Values</h4>
+          <p>Compassion, integrity, and resilience drive everything we do. We believe in sustainable impact — building communities that lift themselves up through unity and purpose.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6">
+        <div class="section-label">Our Work</div>
+        <h2 class="section-title">What We Do</h2>
+        <div class="divider"></div>
+        <div class="row g-3">
+          {% for item in [
+            ('fas fa-graduation-cap','var(--zg-accent)','Education','Free tutoring, scholarship support, digital literacy'),
+            ('fas fa-leaf','var(--zg-blue)','Environment','Tree plantation, cleanliness drives, awareness camps'),
+            ('fas fa-heartbeat','#27a060','Health','Medical camps, health education, nutrition programs'),
+            ('fas fa-users','var(--zg-gold)','Community','Rural outreach, women empowerment, skill development'),
+          ] %}
+          <div class="col-6">
+            <div style="padding:1.5rem;background:var(--zg-light);border-radius:10px;border-left:4px solid {{ item[1] }};">
+              <i class="{{ item[0] }}" style="color:{{ item[1] }};font-size:1.5rem;"></i>
+              <h6 style="font-family:var(--ff-head);font-weight:700;margin-top:0.5rem;">{{ item[2] }}</h6>
+              <p style="font-size:0.82rem;color:var(--zg-gray);margin:0;">{{ item[3] }}</p>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div style="background:var(--zg-deep);border-radius:16px;padding:2.5rem;color:#fff;">
+          <div class="section-label" style="color:var(--zg-gold);">Recognition</div>
+          <h3 style="font-family:var(--ff-head);font-size:1.5rem;margin-bottom:1.5rem;">We Are 80G Certified</h3>
+          <p style="font-size:0.9rem;line-height:1.7;opacity:0.8;margin-bottom:1.5rem;">Zero Gravity — operating under the Dr. Shrikant Jichkar Foundation — is officially 80G certified, meaning your donations are eligible for tax exemption under the Income Tax Act.</p>
+          {% for item in ['Registered Non-Profit Organisation','80G Tax Benefit Certified','Dr. Shrikant Jichkar Foundation','Nagpur, Maharashtra Based'] %}
+          <div style="display:flex;align-items:center;gap:0.75rem;font-size:0.88rem;margin-bottom:0.75rem;">
+            <i class="fas fa-check-circle" style="color:var(--zg-gold);"></i><span>{{ item }}</span>
+          </div>
+          {% endfor %}
+          <a href="{{ url_for('contact') }}" class="btn-primary-zg mt-2" style="display:inline-flex;margin-top:1.5rem;">
+            <i class="fas fa-hand-holding-heart"></i> Get Involved
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

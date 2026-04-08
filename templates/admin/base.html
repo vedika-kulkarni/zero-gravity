@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}Admin | Zero Gravity{% endblock %}</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="{{ url_for('static', filename='css/admin.css') }}" rel="stylesheet">
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="admin-header">
+  <div class="admin-brand">
+    <div class="zg-logo-icon">ZG</div>
+    <span class="name">Zero Gravity</span>
+    <span class="badge-admin">Admin</span>
+  </div>
+  <div class="admin-user">
+    <span><i class="fas fa-user-shield me-1"></i>{{ admin_user }}</span>
+    <a href="{{ url_for('admin_logout') }}" class="btn-logout"><i class="fas fa-sign-out-alt me-1"></i>Logout</a>
+  </div>
+</div>
+
+<!-- FLASH -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+<div style="padding:0 1rem;">
+  {% for cat, msg in messages %}
+  <div class="alert alert-{{ 'success' if cat=='success' else 'danger' if cat=='danger' else 'info' }} alert-dismissible fade show mt-2 mb-0" role="alert">
+    {{ msg }}<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+{% endwith %}
+
+<div class="admin-body">
+  <!-- SIDEBAR -->
+  <div class="admin-sidebar">
+    <div class="sidebar-label">Dashboard</div>
+    <a href="{{ url_for('admin_dashboard') }}" class="sidebar-link {% if request.endpoint=='admin_dashboard' %}active{% endif %}"><i class="fas fa-th-large"></i> Overview</a>
+
+    <div class="sidebar-label">Content</div>
+    <a href="{{ url_for('admin_opportunities') }}" class="sidebar-link {% if request.endpoint=='admin_opportunities' %}active{% endif %}"><i class="fas fa-list"></i> Opportunities</a>
+
+    <div class="sidebar-label">People</div>
+    <a href="{{ url_for('admin_applications') }}" class="sidebar-link {% if request.endpoint=='admin_applications' %}active{% endif %}">
+      <i class="fas fa-clipboard-list"></i> Applications
+    </a>
+    <a href="{{ url_for('admin_volunteers') }}" class="sidebar-link {% if request.endpoint=='admin_volunteers' %}active{% endif %}"><i class="fas fa-users"></i> Volunteers</a>
+    <a href="{{ url_for('admin_messages') }}" class="sidebar-link {% if request.endpoint=='admin_messages' %}active{% endif %}"><i class="fas fa-envelope"></i> Messages</a>
+
+    <div class="sidebar-label">Analytics</div>
+    <a href="{{ url_for('admin_reports') }}" class="sidebar-link {% if request.endpoint=='admin_reports' %}active{% endif %}"><i class="fas fa-chart-bar"></i> Reports</a>
+    <a href="{{ url_for('admin_settings') }}" class="sidebar-link {% if request.endpoint=='admin_settings' %}active{% endif %}"><i class="fas fa-cog"></i> Settings</a>
+
+    <div style="padding:1rem 1.5rem;margin-top:2rem;">
+      <a href="{{ url_for('index') }}" style="color:var(--zg-accent);font-size:0.82rem;text-decoration:none;">
+        <i class="fas fa-external-link-alt me-1"></i>View Main Site
+      </a>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="admin-main">
+    {% block content %}{% endblock %}
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

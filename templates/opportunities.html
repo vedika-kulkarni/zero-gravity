@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block title %}Volunteer Opportunities | Zero Gravity{% endblock %}
+{% block content %}
+
+<div style="background:var(--zg-deep);padding:5rem 0 3rem;">
+  <div class="container">
+    <div class="section-label" style="color:var(--zg-gold);">Get Involved</div>
+    <h1 class="hero-title" style="font-size:clamp(2rem,5vw,3.5rem);">Volunteer Opportunities</h1>
+    <p style="color:rgba(255,255,255,0.7);max-width:560px;font-size:1.05rem;line-height:1.7;margin-top:1rem;">Discover opportunities that match your skills, interests, and schedule.</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+
+    <!-- FILTER BAR -->
+    <form method="GET" action="{{ url_for('opportunities') }}">
+      <div class="filter-bar">
+        <div class="row g-3 align-items-end">
+          <div class="col-md-4">
+            <label class="form-label">Search Opportunities</label>
+            <input type="text" class="form-control" name="q" value="{{ q }}" placeholder="Keyword, title, skill...">
+          </div>
+          <div class="col-md-2">
+            <label class="form-label">Category</label>
+            <select class="form-select" name="category">
+              <option value="">All Categories</option>
+              {% for cat in ['Education','Health','Environment','Community','Technology','Arts & Culture'] %}
+              <option {% if category == cat %}selected{% endif %}>{{ cat }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-md-2">
+            <label class="form-label">Skills Required</label>
+            <select class="form-select" name="skill">
+              <option value="">All Skills</option>
+              {% for s in ['Teaching','Medical','Design','Communication','Programming','Leadership','Photography','First Aid'] %}
+              <option {% if skill == s %}selected{% endif %}>{{ s }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-md-2">
+            <label class="form-label">Duration</label>
+            <select class="form-select" name="duration">
+              <option value="">Any Duration</option>
+              {% for d in ['One-time','Weekly','Monthly','Ongoing'] %}
+              <option {% if duration == d %}selected{% endif %}>{{ d }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-md-2 d-flex gap-2">
+            <button type="submit" class="btn-search w-100"><i class="fas fa-search"></i> Search</button>
+            <a href="{{ url_for('opportunities') }}" class="btn-reset"><i class="fas fa-times"></i></a>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <div style="font-size:0.88rem;color:var(--zg-gray);">Showing {{ opportunities|length }} opportunit{{ 'y' if opportunities|length == 1 else 'ies' }}</div>
+      {% if match_count > 0 %}
+      <div style="font-size:0.82rem;color:var(--zg-accent);font-weight:600;">✦ {{ match_count }} match your skills</div>
+      {% endif %}
+    </div>
+
+    {% if opportunities %}
+    <div class="row g-4">
+      {% for opp in opportunities %}
+      <div class="col-md-6 col-lg-4">
+        {% include 'partials/opp_card.html' %}
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div style="text-align:center;padding:4rem;color:var(--zg-gray);">
+      <i class="fas fa-search" style="font-size:3rem;opacity:0.3;display:block;margin-bottom:1rem;"></i>
+      <p style="font-size:1.1rem;">No opportunities match your search. Try different filters.</p>
+      <a href="{{ url_for('opportunities') }}" class="btn-primary-zg mt-3" style="display:inline-flex;">Clear Filters</a>
+    </div>
+    {% endif %}
+
+  </div>
+</section>
+{% endblock %}

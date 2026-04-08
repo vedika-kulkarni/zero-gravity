@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Login | Zero Gravity{% endblock %}
+{% block content %}
+
+<div style="background:var(--zg-deep);padding:5rem 0 3rem;">
+  <div class="container">
+    <div class="section-label" style="color:var(--zg-gold);">Welcome Back</div>
+    <h1 class="hero-title" style="font-size:clamp(2rem,5vw,3rem);">Volunteer Login</h1>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-5">
+        <div style="background:#fff;border:1px solid var(--zg-border);border-radius:16px;padding:2.5rem;">
+          <h3 style="font-family:var(--ff-head);font-size:1.4rem;margin-bottom:0.5rem;">Log In</h3>
+          <p style="color:var(--zg-gray);font-size:0.88rem;margin-bottom:2rem;">Enter your registered email and password.</p>
+
+          <form method="POST" action="{{ url_for('login') }}">
+            <div class="mb-3">
+              <label class="form-label">Email Address *</label>
+              <input type="email" class="form-control" name="email" required placeholder="your@email.com" autofocus>
+            </div>
+            <div class="mb-4">
+              <label class="form-label">Password *</label>
+              <input type="password" class="form-control" name="password" required placeholder="Your password">
+            </div>
+            <button type="submit" class="btn-submit-form">
+              <i class="fas fa-sign-in-alt me-2"></i>Login
+            </button>
+            <p style="text-align:center;margin-top:1.25rem;font-size:0.85rem;margin-bottom:0.5rem;">
+              <a href="{{ url_for('forgot_password') }}" style="color:var(--zg-accent);font-weight:600;">Forgot password?</a>
+            </p>
+            <p style="text-align:center;margin-top:0;font-size:0.85rem;color:var(--zg-gray);">
+              New here? <a href="{{ url_for('register') }}" style="color:var(--zg-accent);font-weight:600;">Register as Volunteer</a>
+            </p>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

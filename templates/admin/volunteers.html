@@ -1,0 +1,52 @@
+{% extends "admin/base.html" %}
+{% block title %}Volunteers | Admin | Zero Gravity{% endblock %}
+{% block content %}
+<div class="tab-title">Registered Volunteers</div>
+<div class="tab-sub">All volunteers who have signed up on the platform.</div>
+
+<div class="admin-table">
+  <div style="overflow-x:auto;">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>City</th>
+          <th>Skills</th>
+          <th>Availability</th>
+          <th>Applications</th>
+          <th>Joined</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if volunteers %}
+          {% for vol in volunteers %}
+          <tr>
+            <td><strong>{{ vol['name'] }}</strong></td>
+            <td style="font-size:0.82rem;">{{ vol['email'] }}</td>
+            <td style="font-size:0.82rem;">{{ vol['phone'] or '—' }}</td>
+            <td>{{ vol['city'] or 'Nagpur' }}</td>
+            <td>
+              {% if vol['skills'] %}
+                {% for skill in vol['skills'].split(',')[:3] %}
+                  <span style="background:var(--zg-light);border:1px solid var(--zg-border);padding:0.15rem 0.5rem;border-radius:100px;font-size:0.72rem;margin:2px;display:inline-block;">{{ skill.strip() }}</span>
+                {% endfor %}
+                {% if vol['skills'].split(',')|length > 3 %}
+                  <span style="font-size:0.72rem;color:var(--zg-gray);">+{{ vol['skills'].split(',')|length - 3 }} more</span>
+                {% endif %}
+              {% else %}—{% endif %}
+            </td>
+            <td>{{ vol['availability'] or '—' }}</td>
+            <td style="text-align:center;font-family:var(--ff-head);font-weight:700;">{{ vol['app_count'] }}</td>
+            <td style="white-space:nowrap;">{{ vol['join_date'] }}</td>
+          </tr>
+          {% endfor %}
+        {% else %}
+          <tr><td colspan="8" style="text-align:center;padding:3rem;color:#999;">No volunteers registered yet.</td></tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

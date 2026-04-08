@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}Contact Us | Zero Gravity{% endblock %}
+{% block content %}
+<div style="background:var(--zg-deep);padding:5rem 0 3rem;"><div class="container">
+  <div class="section-label" style="color:var(--zg-gold);">Reach Out</div>
+  <h1 class="hero-title" style="font-size:clamp(2rem,5vw,3.5rem);">Contact Us</h1>
+</div></div>
+<section class="section"><div class="container"><div class="row g-5">
+  <div class="col-lg-5">
+    <div class="contact-info-card">
+      <h3 style="font-family:var(--ff-head);font-size:1.5rem;margin-bottom:1.75rem;">Get In Touch</h3>
+      {% for icon, label, val in [
+        ('fas fa-map-marker-alt','Address','79, Bharat Nagar, Nagpur, Maharashtra 440033'),
+        ('fas fa-envelope','Email','contact@myzerogravity.org'),
+        ('fas fa-phone','Phone','+91 7507011110'),
+      ] %}
+      <div class="contact-item">
+        <div class="contact-item-icon"><i class="{{ icon }}"></i></div>
+        <div class="contact-item-text"><strong>{{ label }}</strong><span>{{ val }}</span></div>
+      </div>
+      {% endfor %}
+      <div style="margin-top:2rem;">
+        <h6 style="font-size:0.8rem;text-transform:uppercase;letter-spacing:1px;opacity:0.6;margin-bottom:1rem;">Follow Us</h6>
+        <div style="display:flex;gap:0.75rem;">
+          <a href="https://www.facebook.com/myzerogravity" class="social-btn" target="_blank"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://www.twitter.com/myzerogravity" class="social-btn" target="_blank"><i class="fab fa-twitter"></i></a>
+          <a href="https://www.youtube.com/user/nothingholdsusdown" class="social-btn" target="_blank"><i class="fab fa-youtube"></i></a>
+          <a href="https://www.instagram.com/myzerogravity" class="social-btn" target="_blank"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-7">
+    <div style="background:#fff;border:1px solid var(--zg-border);border-radius:16px;padding:2.5rem;">
+      <h3 style="font-family:var(--ff-head);font-size:1.5rem;margin-bottom:0.5rem;">Send a Message</h3>
+      <p style="color:var(--zg-gray);font-size:0.88rem;margin-bottom:2rem;">We'll get back to you within 24 hours.</p>
+      <form method="POST" action="{{ url_for('contact') }}">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">Full Name *</label>
+            <input type="text" class="form-control" name="name" required placeholder="Your name">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Email *</label>
+            <input type="email" class="form-control" name="email" required placeholder="your@email.com">
+          </div>
+          <div class="col-12">
+            <label class="form-label">Subject</label>
+            <input type="text" class="form-control" name="subject" placeholder="How can we help?">
+          </div>
+          <div class="col-12">
+            <label class="form-label">Message *</label>
+            <textarea class="form-control" name="message" rows="5" required placeholder="Your message..."></textarea>
+          </div>
+          <div class="col-12">
+            <button type="submit" class="btn-submit-form">Send Message <i class="fas fa-paper-plane ms-2"></i></button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div></div></section>
+{% endblock %}
