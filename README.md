@@ -234,29 +234,7 @@ python app.py
 http://127.0.0.1:5000/
 ```
 
----
-
-# Screenshots
-
-## Home Dashboard
-[Add Screenshot Here]
-
----
-
-## Volunteer Opportunity Management
-[Add Screenshot Here]
-
----
-
-## Admin Analytics Dashboard
-[Add Screenshot Here]
-
----
-
-## Reports & Insights
-[Add Screenshot Here]
-
----
+--- 
 
 # Future Improvements
 
