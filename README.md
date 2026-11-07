@@ -9,6 +9,7 @@ The platform enables volunteers to discover opportunities, apply seamlessly, and
 # Live Demo
 
 🔗 https://zerogravity-2k5r.onrender.com/
+<img width="1455" height="823" alt="image" src="https://github.com/user-attachments/assets/3b11a95e-ec6e-4d59-abe7-b1f536734877" />
 
 ---
 
